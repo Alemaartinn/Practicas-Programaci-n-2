@@ -1,0 +1,85 @@
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class RecursionFunctional {
+
+    // 1. Suma de 0 a n
+    public static int sumaN(int n) {
+        return IntStream.rangeClosed(0, n).sum();
+    }
+
+    // 2. Factorial de un número
+    public static int factorial(int n) {
+        return IntStream.rangeClosed(1, n).reduce(1, (a, b) -> a * b);
+    }
+
+    // 3. Potencia n-ésima de un número
+    public static int potencia(int base, int exp) {
+        return IntStream.range(0, exp).map(i -> base).reduce(1, (a, b) -> a * b);
+    }
+
+    // 4. Suma de los elementos de una lista
+    public static int sumaLista(int[] lista) {
+        return IntStream.of(lista).sum();
+    }
+
+    // 5. Media aritmética de una lista
+    public static double mediaAritmetica(int[] lista) {
+        return lista.length == 0 ? 0 : (double) sumaLista(lista) / lista.length;
+    }
+
+    // 6. Desviación típica de una lista
+    public static double desviacionTipica(int[] lista) {
+        double media = mediaAritmetica(lista);
+        return Math.sqrt(IntStream.of(lista)
+                .mapToDouble(x -> Math.pow(x - media, 2))
+                .average()
+                .orElse(0));
+    }
+
+    // 7. Suma de los primeros números pares hasta n
+    public static int sumaPares(int n) {
+        return IntStream.rangeClosed(0, n).filter(x -> x % 2 == 0).sum();
+    }
+
+    // 8. Suma de los elementos pares de una lista
+    public static int sumaParesLista(int[] lista) {
+        return IntStream.of(lista).filter(x -> x % 2 == 0).sum();
+    }
+
+    // 9. Lista de números pares de una lista
+    public static List<Integer> obtenerListaPar(int[] lista) {
+        return IntStream.of(lista).filter(x -> x % 2 == 0).boxed().collect(Collectors.toList());
+    }
+
+    // 10. Lista de los primeros números pares hasta n
+    public static List<Integer> listaPar(int n) {
+        return IntStream.rangeClosed(0, n).filter(x -> x % 2 == 0).boxed().collect(Collectors.toList());
+    }
+
+    // 11. Producto escalar de dos listas
+    public static int productoEscalar(int[] lista1, int[] lista2) {
+        return IntStream.range(0, Math.min(lista1.length, lista2.length))
+                .map(i -> lista1[i] * lista2[i])
+                .sum();
+    }
+
+    public static void main(String[] args) {
+        // Ejemplos de ejecución
+        System.out.println("Suma de 0 a 5: " + sumaN(5));
+        System.out.println("Factorial de 5: " + factorial(5));
+        System.out.println("2^3: " + potencia(2, 3));
+        int[] lista = {1, 2, 3, 4};
+        System.out.println("Suma de la lista: " + sumaLista(lista));
+        System.out.println("Media aritmética: " + mediaAritmetica(lista));
+        System.out.println("Desviación típica: " + desviacionTipica(lista));
+        System.out.println("Suma de pares hasta 9: " + sumaPares(9));
+        System.out.println("Suma de pares en la lista: " + sumaParesLista(lista));
+        System.out.println("Lista de pares: " + obtenerListaPar(lista));
+        System.out.println("Lista de pares hasta 9: " + listaPar(9));
+        int[] lista2 = {2, 4, 6};
+        System.out.println("Producto escalar: " + productoEscalar(lista, lista2));
+    }
+}
+
